@@ -1,0 +1,31 @@
+name: Deploy Cert-Vault
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: self-hosted
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Check Node.js
+        shell: powershell
+        run: |
+          node --version
+          npm --version
+
+      - name: Install dependencies
+        shell: powershell
+        run: |
+          npm install
+
+      - name: Start Cert-Vault
+        shell: powershell
+        run: |
+          node apis.js
