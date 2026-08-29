@@ -11,7 +11,7 @@ jobs:
     runs-on: self-hosted
 
     steps:
-      - name: Checkout repository
+      - name: Checkout
         uses: actions/checkout@v4
 
       - name: Check Node.js
@@ -25,9 +25,14 @@ jobs:
         run: |
           npm install
 
-      - name: Start Cert-Vault
+      - name: Restart Cert-Vault
         shell: powershell
         run: |
-          Start-Process -FilePath "node" `
-            -ArgumentList "apis.js" `
-            -WorkingDirectory "$env:GITHUB_WORKSPACE"
+          pm2 delete cert-vault 2>$null
+          pm2 start apis.js --name cert-vault
+          pm2 save
+
+      - name: Verify
+        shell: powershell
+        run: |
+          pm2 status
