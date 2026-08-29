@@ -28,4 +28,6 @@ jobs:
       - name: Start Cert-Vault
         shell: powershell
         run: |
-          node apis.js
+          Start-Process -FilePath "node" `
+            -ArgumentList "apis.js" `
+            -WorkingDirectory "$env:GITHUB_WORKSPACE"
